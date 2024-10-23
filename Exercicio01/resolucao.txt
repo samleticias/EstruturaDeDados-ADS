@@ -1,0 +1,32 @@
+Exercicio - Capítulo 01
+
+1.1. Analise a estrutura de dados esquematizada a seguir:
+
+a -> b -> c <- d -> e -> f
+Explique por que essa estrutura:
+
+a) Não é um conjunto.
+Um conjunto é uma coleção de elementos que em que a ordem não importa e não permite elementos duplicados. A estrutura dada tem uma ordem 
+específica e a ligação entre os elementos é importante, o que contradiz a definição de um conjunto.
+b) Não é uma lista.
+Uma lista geralmente permite operações como inserção e remoção em qualquer posição. Embora essa estrutura possa parecer uma lista
+encadeada, ela não é explicitamente descrita como tal e pode estar mais relacionada a um outro tipo de estrutura, como um grafo 
+direcionado, que conecta os elementos de forma sequencial. Não está claro se essa estrutura permite as operações típicas de listas 
+(como inserir ou remover em posições).
+c) Não é uma árvore.
+Uma árvore é uma estrutura hierárquica onde cada nó (exceto a raiz) tem um único pai e pode ter zero ou mais filhos. Na estrutura 
+apresentada, cada elemento tem um sucessor linear e não há hierarquia, portanto, não se trata de uma árvore.
+
+1.2. Indique a estrutura de dados mais adequada:
+a) Estradas entre cidades de um mapa:
+A estrutura mais adequada aqui seria um grafo, onde as cidades são representadas como vértices, e as estradas entre elas são as arestas.
+O grafo pode ser direcionado ou não direcionado, dependendo de se as estradas têm sentido único ou mão dupla.
+(b) A estrutura organizacional de uma empresa:
+A estrutura mais apropriada seria uma árvore. A empresa tem uma hierarquia, com uma pessoa (ou grupo) no topo, e cada indivíduo tem um
+chefe direto (exceto o topo), o que forma uma árvore organizacional.
+c) A fila de impressão em um sistema operacional:
+A estrutura ideal é uma fila. As tarefas de impressão seguem uma ordem de chegada, e a fila é uma estrutura que funciona no princípio
+"primeiro a entrar, primeiro a sair" (FIFO - First In, First Out).
+d) A estrutura de diretórios em um sistema operacional:
+A estrutura mais adequada seria uma árvore, onde cada diretório pode ter subdiretórios (filhos) e arquivos (folhas), e cada subdiretório
+tem apenas um diretório pai, formando uma hierarquia.
