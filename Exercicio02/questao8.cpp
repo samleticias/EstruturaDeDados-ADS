@@ -1,5 +1,5 @@
 #include <stdio.h>
-void x(char *str1, char *str2) {
+void concatenar(char *str1, char *str2) {
     while (*str1) {
         str1++;
     }
@@ -16,7 +16,7 @@ void x(char *str1, char *str2) {
 int main() {
     char str1[100] = "Hello ";
     char str2[] = "World!";
-    x(str1, str2);
+    concatenar(str1, str2);
     printf(" %s\n", str1);
     return 0;
 }

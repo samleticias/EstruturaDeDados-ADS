@@ -1,5 +1,5 @@
 #include <stdio.h>
-int x(char *str) {
+int percorrerCadeiaCaracteres(char *str) {
     int contador = 0;
     while (*str) {
         contador++;
@@ -9,7 +9,7 @@ int x(char *str) {
 }
 int main() {
     char str[] = "Hello World";
-    int w = x(str);
+    int w = percorrerCadeiaCaracteres(str);
     printf("%d\n", w);
     return 0;
 }

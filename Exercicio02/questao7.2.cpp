@@ -32,12 +32,12 @@ Lst inserirNo(int valor, Lst lista){
     return lista;
 }
 
-void mostra(Lst listaNos){
+void mostra(Lst no){
     cout << "\nvalores na lista:" << endl;
     cout << "-----------------" << endl;
-    while (listaNos){
-        cout << "> " << listaNos->item << endl;
-        listaNos = listaNos->proximo;
+    while (no){
+        cout << "> " << no->item << endl;
+        no = no->proximo;
     }
     cout << "-----------------\n" << endl;
 }
