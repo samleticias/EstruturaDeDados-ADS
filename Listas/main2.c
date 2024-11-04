@@ -58,6 +58,7 @@ void inserirNoFinal(Lista *lista, int num){
     }
 }
 
+// inserir no meio
 void inserirNoMeio(Lista *lista, int num, int ant){
     No *atual, *novo = malloc(sizeof(No));
     if (novo){
@@ -89,6 +90,37 @@ void inserirNoMeio(Lista *lista, int num, int ant){
     }
 }
 
+// inserir ordenado na lista
+void inserirOrdenado(Lista *lista, int num){
+    No *aux, *novo = malloc(sizeof(No));
+
+    if (novo){
+        novo->valor = num;
+
+        if (lista->inicio == NULL){
+            novo->proximo = NULL;
+            lista->inicio = novo;
+        // se o novo valor é o menor
+        } else if (novo->valor < lista->inicio->valor){
+            novo->proximo = lista->inicio;
+            lista->inicio = novo;
+        } else {
+            aux = lista->inicio;
+            // encerra quando proximo é nulo ou o novo valor nao é maior que o valor do proximo nó
+            while(aux->proximo && novo->valor > aux->proximo->valor){
+                aux = aux->proximo;
+            }
+            novo->proximo = aux->proximo;
+            aux->proximo = novo;
+        }
+        lista->tam++; // atualiza tamanho da lista
+
+    } else {
+        printf("\nerro ao alocar memoria!\n");
+    }
+}
+
+// imprimir lista encadeada
 void imprimir(Lista lista){
     // elemento struct usa ponto
     // ponteiro usa seta
@@ -109,7 +141,7 @@ int main(){
     criarLista(&lista);
 
     do {
-        printf("\n\t1 - inserir no inicio\n\t2 - inserir no final\n\t3 - inserir no meio\n\t4 - imprimir lista\n\t0 - sair\n\t> ");
+        printf("\n\t1 - inserir no inicio\n\t2 - inserir no final\n\t3 - inserir no meio\n\t4 - imprimir lista\n\t5 - inserir ordenado\n\t0 - sair\n\t> ");
         scanf("%d", &opcao);
 
         switch (opcao){
@@ -130,6 +162,11 @@ int main(){
                 break;
             case 4:
                 imprimir(lista);
+                break;
+            case 5:
+                printf("\ndigite um valor: ");
+                scanf("%d", &valor);
+                inserirOrdenado(&lista, valor);
                 break;
             default:
                 if (opcao != 0){
