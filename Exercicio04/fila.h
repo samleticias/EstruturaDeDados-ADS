@@ -38,7 +38,7 @@ void enfileira(itemf item, Fila f){
     f->total++;
 }
 
-itemf desinfileira(Fila f){
+itemf desenfileira(Fila f){
     if(estaVazia(f)){
         abort();
     }
