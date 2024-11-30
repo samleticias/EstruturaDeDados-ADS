@@ -1,68 +1,48 @@
+#include "stack.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-typedef struct no {
-    char caracter;
-    struct no *proximo;
-} No;
+// oi bom dia   // io mob aid
 
-typedef struct pilha {
-    No *topo;
-} Pilha;
+int main() {
 
-int estaVazia(Pilha *pilha){
-    return pilha->topo == NULL;
-}
+    char phrase[100];
+    Stack stack1 = createStack(100);
+    Stack stack2 = createStack(100);
+    Stack stack3 = createStack(100);
+    printf("\n> enter a phrase: ");
+    gets(phrase);
 
-void empilhar(char letra, Pilha *pilha){
-    No *novo = (No*)malloc(sizeof(struct no));
-    if (novo){
-        novo->caracter = letra;
-        novo->proximo = pilha->topo;
-        pilha->topo = novo;
-    } else {
-        printf("erro ao alocar memória ...");
+    // preenche a pilha 1 com a cadeia de caracteres
+    for (int i = 0; phrase[i] != '\0'; i++) {
+        stack(phrase[i], stack1);
     }
-}
 
-char desempilhar(Pilha *pilha){
-    if(!estaVazia(pilha)){
-        No *remover = pilha->topo;
-        char letra = remover->caracter;
-        pilha->topo = remover->proximo;
-        free(remover);
-        return letra;
-    }
-    return '\0';
-}
+    while (!isEmpty(stack1)) {
 
-int main(){
-    char frase[100];
-    printf("Digite uma frase: "); // apenas um teste
-    fgets(frase, sizeof(frase), stdin); 
-
-    Pilha pilha;
-    pilha.topo = NULL;
-
-    for (int i = 0; i < strlen(frase); i++){
-        if (frase[i] != ' ' && frase[i] != '\n'){
-            empilhar(frase[i], &pilha);
-        } else {
-            while (!estaVazia(&pilha)){
-                printf("%c", desempilhar(&pilha));
-            }
-            if (frase[i] == ' ') {
-                printf(" "); 
-            }
+        // desempilha da pilha 1 e empilha na pilha 2, até formar uma palavra
+        while (!isEmpty(stack1) && pick(stack1) != ' ') {
+            stack(unstack(stack1), stack2);
         }
+
+        // desempilha da pilha 2 e empilha na pilha 3 a palavra com as letras invertidas
+        while (!isEmpty(stack2)) {
+            stack(unstack(stack2), stack3);
+        }
+
+        // empilha o caracter de espaço que ficou na pilha 1 para a pilha 3, caso ainda tenha
+        if (!isEmpty(stack1))
+            stack(unstack(stack1), stack3);
     }
 
-    if (!estaVazia(&pilha)){
-        printf("%c", desempilhar(&pilha));
+    //vem desempilhando a pilha 3, exibindo as palavras na mesma ordem, porém com as letras invertidas
+    while (!isEmpty(stack3)){
+        printf("%c", unstack(stack3));
     }
 
-    // Saída: sanepa mu etset
+    // faz a liberação de memória
+    destroy(&stack1);
+    destroy(&stack2);
+    destroy(&stack3);
 
     return 0;
 }
