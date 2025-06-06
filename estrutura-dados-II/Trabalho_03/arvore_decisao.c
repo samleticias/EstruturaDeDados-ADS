@@ -2,19 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-/** @note Árvore de decisão é uma árvore que carrega perguntas e respostas.
- * Aplicada a um contexto real, ela debate cada pergunta e dependendo da resposta vai para uma nova pergunta
- * ou um resultado final
+/**
+ * @note Árvore de decisão aplicada à análise de crédito.
+ * Cada nó representa uma pergunta sobre o perfil financeiro do cliente.
+ * As respostas "sim" ou "não" direcionam para outras perguntas ou para uma decisão final.
  * 
- * @param No com filhos = Pergunta a ser refletida e leva para o sim ou não.
- * @param No folha = Resultado final da reflexão gerada.
- * 
- * @note A decisão da árvore consiste no resultado final advindo das perguntas feitas. A árvore aqui é um diagnóstico médico.
-*/
-
+ * @param Nó com filhos: representa uma pergunta.
+ * @param Nó folha: representa uma decisão final (ex.: "Crédito aprovado").
+ */
 
 /** @brief Estrutura de um nó da árvore de decisão.
-    @details Contém o texto da pergunta ou diagnóstico, e os ponteiros para as respostas "sim" e "não". */
+ *  @details Contém o texto da pergunta ou decisão, e os ponteiros para as respostas "sim" e "não". */
 typedef struct No {
     char texto[100]; 
     struct No* sim;  
@@ -24,10 +22,10 @@ typedef struct No {
 /**
  * @brief Cria um novo nó da árvore de decisão.
  * 
- * @param texto Texto da pergunta ou diagnóstico.
+ * @param texto Texto da pergunta ou decisão.
  * @return Ponteiro para o nó recém-criado.
  * 
- * @note A função utiliza malloc. É necessário liberar a memória depois.
+ * @note A função utiliza malloc. É necessário liberar a memória posteriormente.
  */
 No* criarNo(char texto[]) {
     No* novo = (No*)malloc(sizeof(No));
@@ -42,11 +40,11 @@ No* criarNo(char texto[]) {
  * 
  * @param no Ponteiro para o nó atual.
  * 
- * @note A função faz perguntas até encontrar um nó folha, que contém o diagnóstico.
+ * @note A função faz perguntas até encontrar um nó folha, que contém a decisão final.
  */
 void percorrerArvore(No* no) {
     if (no->sim == NULL && no->nao == NULL) {
-        printf("Diagnóstico: %s\n", no->texto);
+        printf("Decisao: %s\n", no->texto);
         return;
     }
 
@@ -84,67 +82,50 @@ void desenharArvore(No* no, int nivel) {
 }
 
 /**
- * 
- * @note A função monta a árvore, desenha sua estrutura, executa o diagnóstico e libera a memória.
+ * @note A função monta a árvore, desenha sua estrutura, executa a análise de crédito e libera a memória.
  */
 int main() {
-    // Diagnósticos finais
-    No* inf_viral_exant = criarNo("Infecção viral com exantema (ex.: sarampo)");
-    No* inf_bacteriana = criarNo("Infecção bacteriana (ex.: amigdalite)");
-    No* inf_respiratoria = criarNo("Infecção respiratória (ex.: bronquite)");
-    No* virose_comum = criarNo("Virose comum");
-    No* alergia_cutanea = criarNo("Alergia cutânea");
-    No* alergia_leve = criarNo("Alergia leve");
-    No* saudavel = criarNo("Saudável");
+    // Decisões finais
+    No* credito_aprovado = criarNo("Credito aprovado");
+    No* credito_restrito = criarNo("Credito aprovado com restricoes");
+    No* credito_negado = criarNo("Credito negado");
 
     // Sub-perguntas
-    No* manchas = criarNo("Está com manchas no corpo?");
-    manchas->sim = inf_viral_exant;
-    manchas->nao = inf_bacteriana;
+    No* outros_emprestimos = criarNo("Possui outros emprestimos ativos?");
+    outros_emprestimos->sim = credito_restrito;
+    outros_emprestimos->nao = credito_aprovado;
 
-    No* tosse = criarNo("Tem tosse?");
-    tosse->sim = inf_respiratoria;
-    tosse->nao = virose_comum;
+    No* emprego_formal = criarNo("Possui emprego formal?");
+    emprego_formal->sim = outros_emprestimos;
+    emprego_formal->nao = credito_restrito;
 
-    No* dor_garganta = criarNo("Tem dor de garganta?");
-    dor_garganta->sim = manchas;
-    dor_garganta->nao = tosse;
+    No* inadimplencia = criarNo("Tem historico de inadimplencia?");
+    inadimplencia->sim = credito_negado;
+    inadimplencia->nao = emprego_formal;
 
-    No* vermelhidao = criarNo("Está com vermelhidão na pele?");
-    vermelhidao->sim = alergia_cutanea;
-    vermelhidao->nao = alergia_leve;
-
-    No* coceira = criarNo("Tem coceira?");
-    coceira->sim = vermelhidao;
-    coceira->nao = saudavel;
+    No* renda = criarNo("Possui renda mensal superior a R$ 3.000?");
+    renda->sim = inadimplencia;
+    renda->nao = credito_negado;
 
     // Raiz da árvore
-    No* febre = criarNo("Tem febre?");
-    febre->sim = dor_garganta;
-    febre->nao = coceira;
+    No* analise_credito = renda;
 
     // Desenha a árvore
-    printf("\n=== Estrutura da Árvore de Decisão ===\n");
-    desenharArvore(febre, 0);
+    printf("\n=== Estrutura da Arvore de Decisao ===\n");
+    desenharArvore(analise_credito, 0);
 
-    // Executa o diagnóstico
-    printf("\n=== Sistema de Diagnóstico Médico ===\n");
-    percorrerArvore(febre);
+    // Executa a análise de crédito
+    printf("\n=== Sistema de Analise de Credito ===\n");
+    percorrerArvore(analise_credito);
 
     // Libera a memória alocada
-    free(inf_viral_exant);
-    free(inf_bacteriana);
-    free(inf_respiratoria);
-    free(virose_comum);
-    free(alergia_cutanea);
-    free(alergia_leve);
-    free(saudavel);
-    free(manchas);
-    free(tosse);
-    free(dor_garganta);
-    free(vermelhidao);
-    free(coceira);
-    free(febre);
+    free(credito_aprovado);
+    free(credito_restrito);
+    free(credito_negado);
+    free(outros_emprestimos);
+    free(emprego_formal);
+    free(inadimplencia);
+    free(renda);
 
     return 0;
 }
